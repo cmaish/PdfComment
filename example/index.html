@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PDF Comment Viewer - Demo</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      background: #F0F2F5;
+    }
+
+    .header {
+      background: white;
+      border-bottom: 1px solid #DFE6E9;
+      padding: 16px 24px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .header h1 {
+      font-size: 24px;
+      color: #2D3436;
+      margin-bottom: 4px;
+    }
+
+    .header p {
+      color: #636E72;
+      font-size: 14px;
+    }
+
+    .controls {
+      background: white;
+      border-bottom: 1px solid #DFE6E9;
+      padding: 12px 24px;
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .btn {
+      padding: 8px 16px;
+      border: none;
+      border-radius: 6px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      background: #6C5CE7;
+      color: white;
+    }
+
+    .btn:hover {
+      background: #5F50D7;
+      transform: translateY(-1px);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    }
+
+    .btn-secondary {
+      background: #F8F9FA;
+      color: #2D3436;
+      border: 1px solid #DFE6E9;
+    }
+
+    .btn-secondary:hover {
+      background: #E9ECEF;
+    }
+
+    #pdf-container {
+      height: calc(100vh - 140px);
+      position: relative;
+    }
+
+    .info-banner {
+      background: #FFF4E6;
+      border: 1px solid #FFE0B2;
+      padding: 16px 24px;
+      margin: 24px;
+      border-radius: 8px;
+      color: #E65100;
+    }
+
+    .info-banner strong {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 16px;
+    }
+
+    .info-banner ul {
+      margin-left: 20px;
+      margin-top: 8px;
+    }
+
+    .info-banner li {
+      margin: 4px 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>PDF Comment Library Demo</h1>
+    <p>Click anywhere on the PDF to add a comment. View all comments in the sidebar.</p>
+  </div>
+
+  <div class="controls">
+    <button class="btn" id="zoom-in">Zoom In</button>
+    <button class="btn" id="zoom-out">Zoom Out</button>
+    <button class="btn btn-secondary" id="export-comments">Export Comments</button>
+    <button class="btn btn-secondary" id="clear-comments">Clear All</button>
+  </div>
+
+  <div id="pdf-container"></div>
+
+  <div class="info-banner" id="no-pdf-banner">
+    <strong>No PDF loaded</strong>
+    <p>This is a demonstration page for the PDF Comment Library. To see it in action:</p>
+    <ul>
+      <li>Place a PDF file named <code>sample.pdf</code> in the example directory</li>
+      <li>Or modify the code below to point to your PDF URL</li>
+      <li>Serve this page with a local web server (not file://)</li>
+    </ul>
+  </div>
+
+  <script type="module">
+    // This is a demo script - in production, import from your built library
+    // import { PdfCommentViewer } from '../dist/index.esm.js';
+
+    // Demo: Initialize with mock data
+    console.log('PDF Comment Library Demo');
+    console.log('To use this library, import it and initialize like this:');
+    console.log(`
+      import { PdfCommentViewer } from 'pdf-comment';
+
+      const viewer = new PdfCommentViewer({
+        container: document.getElementById('pdf-container'),
+        pdfSource: './sample.pdf',
+        currentUser: {
+          id: 'user123',
+          name: 'John Doe',
+          color: '#6C5CE7'
+        },
+        onCommentCreated: (comment) => {
+          console.log('New comment:', comment);
+          // Save to backend
+        },
+        onCommentResolved: (commentId, resolved) => {
+          console.log('Comment resolved:', commentId, resolved);
+        }
+      });
+
+      // Zoom controls
+      document.getElementById('zoom-in').addEventListener('click', () => {
+        viewer.zoomIn();
+      });
+
+      document.getElementById('zoom-out').addEventListener('click', () => {
+        viewer.zoomOut();
+      });
+
+      // Export comments
+      document.getElementById('export-comments').addEventListener('click', () => {
+        const comments = viewer.getComments();
+        console.log('All comments:', comments);
+
+        const json = JSON.stringify(comments, null, 2);
+        const blob = new Blob([json], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'comments.json';
+        a.click();
+      });
+    `);
+
+    // Setup demo buttons
+    document.getElementById('zoom-in').addEventListener('click', () => {
+      console.log('Zoom in clicked');
+    });
+
+    document.getElementById('zoom-out').addEventListener('click', () => {
+      console.log('Zoom out clicked');
+    });
+
+    document.getElementById('export-comments').addEventListener('click', () => {
+      console.log('Export clicked - would download comments.json');
+    });
+
+    document.getElementById('clear-comments').addEventListener('click', () => {
+      if (confirm('Are you sure you want to clear all comments?')) {
+        console.log('Comments would be cleared');
+      }
+    });
+  </script>
+</body>
+</html>
