@@ -166,8 +166,11 @@ export class PdfCommentViewer {
    * Render a single comment marker on the PDF
    */
   private renderComment(comment: Comment): void {
+    if (comment.position.type !== 'pdf') return;
+
+    const position = comment.position as any;
     const overlay = this.pdfContainer.querySelector(
-      `.pdf-comment-overlay[data-page-number="${comment.position.page}"]`
+      `.pdf-comment-overlay[data-page-number="${position.page}"]`
     ) as HTMLElement;
 
     if (!overlay) {

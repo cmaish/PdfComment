@@ -48,10 +48,13 @@ export class CommentManager {
   }
 
   /**
-   * Get comments by page number
+   * Get comments by page number (for PDF and Word documents)
    */
   public getCommentsByPage(page: number): Comment[] {
-    return this.getAllComments().filter(comment => comment.position.page === page);
+    return this.getAllComments().filter(comment => {
+      const pos = comment.position;
+      return (pos.type === 'pdf' || pos.type === 'word') && (pos as any).page === page;
+    });
   }
 
   /**

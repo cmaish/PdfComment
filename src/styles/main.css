@@ -511,3 +511,302 @@
     width: 95%;
   }
 }
+
+/* ============================================
+   Document Viewer Styles (Text, Word, Excel)
+   ============================================ */
+
+/* Document Comment Viewer Container */
+.document-comment-viewer {
+  position: relative;
+  background-color: #F0F2F5;
+  overflow-y: auto;
+  max-height: 100%;
+  padding: 20px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
+
+.document-viewer-container {
+  position: relative;
+  width: 100%;
+}
+
+/* ============================================
+   Text Document Viewer
+   ============================================ */
+
+.text-document-viewer {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px var(--pdf-comment-shadow);
+  overflow: hidden;
+  display: flex;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.text-line-numbers {
+  background: var(--pdf-comment-bg-light);
+  padding: 16px 12px;
+  border-right: 1px solid var(--pdf-comment-border);
+  user-select: none;
+  min-width: 50px;
+  text-align: right;
+}
+
+.text-line-number {
+  font-family: 'Monaco', 'Menlo', 'Consolas', monospace;
+  font-size: 13px;
+  color: var(--pdf-comment-text-light);
+  line-height: 1.6;
+  padding: 2px 8px;
+}
+
+.text-content {
+  flex: 1;
+  padding: 16px;
+  overflow-x: auto;
+}
+
+.text-line {
+  font-family: 'Monaco', 'Menlo', 'Consolas', monospace;
+  font-size: 13px;
+  line-height: 1.6;
+  padding: 2px 8px;
+  min-height: 21px;
+  position: relative;
+  cursor: text;
+  transition: background 0.2s;
+}
+
+.text-line:hover {
+  background: var(--pdf-comment-bg-light);
+}
+
+.text-line--commented {
+  background: rgba(108, 92, 231, 0.05);
+  border-left: 3px solid var(--pdf-comment-primary);
+  padding-left: 5px;
+}
+
+/* ============================================
+   Word Document Viewer
+   ============================================ */
+
+.word-document-viewer {
+  background: #F0F2F5;
+  padding: 20px;
+}
+
+.word-page-container {
+  position: relative;
+  margin: 0 auto 30px;
+  width: fit-content;
+}
+
+.word-page {
+  background: white;
+  box-shadow: 0 2px 8px var(--pdf-comment-shadow);
+  border-radius: 4px;
+  min-width: 600px;
+  min-height: 800px;
+  padding: 40px;
+}
+
+.word-page-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  cursor: crosshair;
+  pointer-events: all;
+}
+
+/* ============================================
+   Excel Document Viewer
+   ============================================ */
+
+.excel-document-viewer {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px var(--pdf-comment-shadow);
+  overflow: hidden;
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+.excel-sheet-tabs {
+  display: flex;
+  gap: 4px;
+  padding: 8px;
+  background: var(--pdf-comment-bg-light);
+  border-bottom: 1px solid var(--pdf-comment-border);
+  overflow-x: auto;
+}
+
+.excel-sheet-tab {
+  padding: 8px 16px;
+  background: white;
+  border: 1px solid var(--pdf-comment-border);
+  border-radius: 4px 4px 0 0;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.excel-sheet-tab:hover {
+  background: var(--pdf-comment-bg-light);
+}
+
+.excel-sheet-tab--active {
+  background: var(--pdf-comment-primary);
+  color: white;
+  border-color: var(--pdf-comment-primary);
+}
+
+.excel-sheet {
+  overflow: auto;
+  padding: 16px;
+}
+
+.excel-table {
+  border-collapse: collapse;
+  background: white;
+  font-size: 13px;
+}
+
+.excel-column-header,
+.excel-row-header {
+  background: var(--pdf-comment-bg-light);
+  border: 1px solid var(--pdf-comment-border);
+  padding: 6px 12px;
+  font-weight: 600;
+  color: var(--pdf-comment-text);
+  text-align: center;
+  min-width: 30px;
+  position: sticky;
+  z-index: 10;
+}
+
+.excel-column-header {
+  top: 0;
+}
+
+.excel-row-header {
+  left: 0;
+}
+
+.excel-cell {
+  border: 1px solid var(--pdf-comment-border);
+  padding: 6px 12px;
+  min-width: 100px;
+  max-width: 300px;
+  cursor: pointer;
+  transition: background 0.2s;
+  position: relative;
+}
+
+.excel-cell:hover {
+  background: var(--pdf-comment-bg-light);
+}
+
+.excel-cell--commented {
+  background: rgba(108, 92, 231, 0.05);
+}
+
+/* ============================================
+   Comment Markers (Multi-Document)
+   ============================================ */
+
+.comment-marker {
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  transform: translate(-50%, -50%);
+  cursor: pointer;
+  z-index: 100;
+  transition: all 0.2s ease;
+}
+
+.comment-marker-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  background: var(--pdf-comment-primary);
+  color: white;
+  border-radius: 50%;
+  font-size: 14px;
+  box-shadow: 0 2px 8px var(--pdf-comment-shadow);
+  transition: all 0.2s ease;
+}
+
+.comment-marker:hover .comment-marker-icon {
+  transform: scale(1.15);
+  box-shadow: 0 4px 12px var(--pdf-comment-shadow-hover);
+}
+
+.comment-marker--resolved .comment-marker-icon {
+  background: var(--pdf-comment-success);
+  opacity: 0.7;
+}
+
+.comment-marker--text {
+  position: relative;
+  transform: none;
+  top: 50%;
+  margin-top: -12px;
+}
+
+.comment-marker--word {
+  width: 28px;
+  height: 28px;
+}
+
+.comment-marker--word .comment-marker-icon {
+  width: 28px;
+  height: 28px;
+  font-size: 16px;
+}
+
+.comment-marker--excel {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  width: 20px;
+  height: 20px;
+  transform: none;
+}
+
+.comment-marker--excel .comment-marker-icon {
+  width: 20px;
+  height: 20px;
+  font-size: 12px;
+}
+
+/* ============================================
+   Responsive Adjustments
+   ============================================ */
+
+@media (max-width: 768px) {
+  .text-document-viewer {
+    font-size: 12px;
+  }
+
+  .excel-table {
+    font-size: 11px;
+  }
+
+  .excel-cell {
+    min-width: 60px;
+    padding: 4px 8px;
+  }
+
+  .word-page {
+    min-width: auto;
+    padding: 20px;
+  }
+}

@@ -1,5 +1,5 @@
 import { CommentManager } from './CommentManager';
-import { Comment, CommentEventType } from '../types';
+import { Comment, CommentEventType, DocumentType } from '../types';
 
 describe('CommentManager', () => {
   let manager: CommentManager;
@@ -13,7 +13,7 @@ describe('CommentManager', () => {
   const mockComment: Omit<Comment, 'id' | 'createdAt' | 'replies' | 'resolved'> = {
     content: 'Test comment',
     author: mockAuthor,
-    position: { page: 0, x: 0.5, y: 0.5 },
+    position: { type: DocumentType.PDF, page: 0, x: 0.5, y: 0.5 },
   };
 
   beforeEach(() => {
@@ -91,9 +91,9 @@ describe('CommentManager', () => {
 
   describe('getCommentsByPage', () => {
     it('should return comments for specific page', () => {
-      const comment1 = manager.addComment({ ...mockComment, position: { page: 0, x: 0.5, y: 0.5 } });
-      const comment2 = manager.addComment({ ...mockComment, position: { page: 1, x: 0.5, y: 0.5 } });
-      const comment3 = manager.addComment({ ...mockComment, position: { page: 0, x: 0.3, y: 0.3 } });
+      const comment1 = manager.addComment({ ...mockComment, position: { type: DocumentType.PDF, page: 0, x: 0.5, y: 0.5 } });
+      const comment2 = manager.addComment({ ...mockComment, position: { type: DocumentType.PDF, page: 1, x: 0.5, y: 0.5 } });
+      const comment3 = manager.addComment({ ...mockComment, position: { type: DocumentType.PDF, page: 0, x: 0.3, y: 0.3 } });
 
       const page0Comments = manager.getCommentsByPage(0);
       const page1Comments = manager.getCommentsByPage(1);
@@ -351,7 +351,7 @@ describe('CommentManager', () => {
           id: 'comment1',
           content: 'Comment 1',
           author: mockAuthor,
-          position: { page: 0, x: 0.5, y: 0.5 },
+          position: { type: DocumentType.PDF, page: 0, x: 0.5, y: 0.5 },
           createdAt: new Date(),
           replies: [],
           resolved: false,
@@ -360,7 +360,7 @@ describe('CommentManager', () => {
           id: 'comment2',
           content: 'Comment 2',
           author: mockAuthor,
-          position: { page: 1, x: 0.3, y: 0.7 },
+          position: { type: DocumentType.PDF, page: 1, x: 0.3, y: 0.7 },
           createdAt: new Date(),
           replies: [],
           resolved: true,

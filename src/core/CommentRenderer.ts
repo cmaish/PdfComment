@@ -15,11 +15,15 @@ export class CommentRenderer {
    * Render a comment marker on a PDF overlay
    */
   public renderCommentMarker(overlay: HTMLElement, comment: Comment): void {
+    // Only render PDF comments with this renderer
+    if (comment.position.type !== 'pdf') return;
+
+    const position = comment.position as any;
     const marker = document.createElement('div');
     marker.className = this.getMarkerClassName(comment);
     marker.dataset.commentId = comment.id;
-    marker.style.left = `${comment.position.x * 100}%`;
-    marker.style.top = `${comment.position.y * 100}%`;
+    marker.style.left = `${position.x * 100}%`;
+    marker.style.top = `${position.y * 100}%`;
 
     // Add number badge
     const badge = document.createElement('span');
@@ -31,8 +35,8 @@ export class CommentRenderer {
     if (comment.rect) {
       const highlight = document.createElement('div');
       highlight.className = 'pdf-comment-highlight';
-      highlight.style.left = `${comment.rect.x * 100}%`;
-      highlight.style.top = `${comment.rect.y * 100}%`;
+      highlight.style.left = `${position.x * 100}%`;
+      highlight.style.top = `${position.y * 100}%`;
       highlight.style.width = `${comment.rect.width * 100}%`;
       highlight.style.height = `${comment.rect.height * 100}%`;
       overlay.appendChild(highlight);

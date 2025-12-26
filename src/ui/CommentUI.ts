@@ -1,4 +1,4 @@
-import { Comment, CommentAuthor, CommentEvent, CommentEventType, PdfCommentOptions } from '../types';
+import { Comment, CommentAuthor, CommentEvent, CommentEventType, PdfCommentOptions, DocumentType } from '../types';
 import { CommentManager } from '../core/CommentManager';
 import { EventEmitter } from '../utils/eventEmitter';
 import { generateId, generateColor } from '../utils/idGenerator';
@@ -130,7 +130,7 @@ export class CommentUI {
         ` : ''}
         <div class="pdf-comment-footer">
           <button class="pdf-comment-btn pdf-comment-btn--secondary" data-action="goto" data-comment-id="${comment.id}">
-            Go to page ${comment.position.page + 1}
+            ${this.getLocationText(comment)}
           </button>
           ${!comment.resolved ? `
             <button class="pdf-comment-btn pdf-comment-btn--primary" data-action="resolve" data-comment-id="${comment.id}">
@@ -181,7 +181,7 @@ export class CommentUI {
           this.commentManager.addComment({
             content,
             author: this.currentUser,
-            position: { page, x, y },
+            position: { type: DocumentType.PDF, page, x, y },
           });
           dialog.remove();
         }
@@ -296,6 +296,24 @@ export class CommentUI {
     const div = document.createElement('div');
     div.textContent = text;
     return div.innerHTML;
+  }
+
+  /**
+   * Get location text based on position type
+   */
+  private getLocationText(comment: Comment): string {
+    const pos = comment.position;
+    switch (pos.type) {
+      case DocumentType.PDF:
+      case DocumentType.WORD:
+        return `Go to page ${(pos as any).page + 1}`;
+      case DocumentType.TEXT:
+        return `Go to line ${(pos as any).line}`;
+      case DocumentType.EXCEL:
+        return `Go to ${(pos as any).column}${(pos as any).row}`;
+      default:
+        return 'Go to location';
+    }
   }
 
   /**
